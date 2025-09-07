@@ -178,3 +178,40 @@ def is_palindrome(s: str) -> bool:
 
 #print(is_palindrome("Neuquen"))
 
+# Ejercicio 11
+
+def mystery(a: int, b: int) -> int:
+
+    if (b == 0):
+      return a
+    
+    return mystery(2 * a, b - 1)
+
+
+#print(mystery(7,3))
+
+#1. ¿Qué muestra por pantalla el siguiente código? Intente deducirlo sin ejecutarlo.
+#>>> print(mystery(7, 3))
+#>>> 56
+
+#2. ¿Cuántas veces se invoca recursivamente mystery en la llamada del item anterior?
+# Se invoca recursivamente 3 veces.
+
+#3. De manera general: ¿qué muestra por pantalla la llamada f(x, 3) para un x cualquiera? y ¿qué
+# muestra por pantalla la llamada f(x, y) para x, y cualesquiera?
+#
+# La llamada f(x, 3) muestra por pantalla el resultado de la operacion (2 * ( 2 * ( 2 * x))) = 8 * x
+# Y f(x, y) cada llamada duplica a x y disminuye a y hasta llegar al caso base y retornar el valor. x * (2 ** y)
+
+
+# Ejercicio 12
+
+def potencia(a: int, b: int) -> int:
+    
+    if(b >= 0):
+        return power(a,b)
+    else:
+        positiveB = b * -1
+        return 1 / power(a, positiveB)
+
+print(potencia(-8,-2))
