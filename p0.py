@@ -214,4 +214,91 @@ def potencia(a: int, b: int) -> int:
         positiveB = b * -1
         return 1 / power(a, positiveB)
 
-print(potencia(-8,-2))
+#print(potencia(-8,-2))
+
+# Ejercicio 13
+
+def aux(lista: list[int]) -> tuple[int, float]:
+    
+    if(not lista):
+        return (0,0)
+    
+    suma, cantidad = aux(lista[1:])
+
+    suma = suma + lista[0]
+    cantidad += 1
+
+    return (suma, cantidad)
+
+def average(lista: list[float]) -> float:
+
+    suma, cantidad = aux(lista)
+    return suma / cantidad
+
+#print(aux([1,2,3,4]))
+
+# Ejercicio 14
+
+def posicion(a: str, b: str) -> int:
+
+    lenA = len(a)
+    lenB = len(b)
+
+    if(lenA < lenB):
+        return False
+
+    if(a[:lenB] == b):
+        return True
+    
+    return posicion(a[1:], b)
+    
+print(posicion("posicion", "si"))
+
+# Ejercicio 15
+
+memo: dict[int, int] = { 0: 0, 1: 1 }
+
+
+def fibonacci_memo_global(n: int) -> int:
+    """
+    Devuelve el n-esimo numero de la sucesion de fibonacci por ejemplo
+    n = 4 la funcion retorna 3
+    recordatorio sucesion fibonacci [0,1,1,2,3,5,8,13,21... ]
+    """
+    if(n in memo):
+        return memo[n]
+    
+
+    memo[n] = fibonacci_memo_global(n - 2) + fibonacci_memo_global(n - 1)
+    
+    return memo[n]
+
+def fibonacci_memo_aux(n: int, memo: dict[int, int]) -> tuple[int, dict[int, int]]:
+
+    if(n in memo):
+        return memo[n] , memo
+    
+    memo[n] = fibonacci_memo_aux(n - 2, memo)[0] + fibonacci_memo_aux(n - 1, memo)[0]
+    
+    return memo[n], memo
+
+def fibonacci_memo(n: int) -> int:
+
+    ret, memo = fibonacci_memo_aux(n, { 0: 0, 1: 1 })
+    
+    return ret
+    
+
+
+import time
+
+
+start_time = time.time()
+print(fibonacci(50)) 
+end_time = time.time()
+total = end_time - start_time
+print(f"{total:.5f}")
+
+#print(fibonacci(80))
+#print(fibonacci_memo_global(100))
+#print(fibonacci_memo(100, { 0: 0, 1: 1 }))
