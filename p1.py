@@ -238,7 +238,7 @@ while orden != 'fin':
     orden = input("Introduce la orden: ") """
 
 # TEST Ejercicio 5
-mi_robot = Robot()
+""" mi_robot = Robot()
 orden = input("Introduce la orden, volver para regresar al origen y fin para terminar: ")
 while orden != 'fin':
 
@@ -250,4 +250,91 @@ while orden != 'fin':
     print(mi_robot.posicion_actual())
     orden = input("Introduce la orden: ")
 
-print(mi_robot.obtener_historico_de_movimientos())
+print(mi_robot.obtener_historico_de_movimientos()) """
+
+# Composición y Herencia
+
+# Ejercicio 6
+
+class Materia():
+
+    def __init__(self, codigo: str, nombre: str, creditos: int) -> None:
+        self.codigo: str = codigo
+        self.nombre: str = nombre
+        self.creditos: int = creditos
+
+    def __str__(self) -> str:
+        return f"{self.codigo} {self.nombre} ({self.creditos})"
+
+
+class Carrera():
+    
+    def __init__(self, materias: list[Materia]) -> None:
+        self.materias: list[Materia] = materias
+        self.materias_aprobadas: list[tuple[str, float]] = []
+        self.materias_aprobadas_dict: dict[str, tuple[Materia, float]] = {} #TODO Implementar diccionario
+    
+    def get_creditos(self) -> str:
+        total_creditos: float = 0
+        for materia in self.materias:
+            for aprobada in self.materias_aprobadas:
+                if(aprobada[0] == materia.codigo):
+                    total_creditos += int(materia.creditos)
+
+        return str(total_creditos)
+    
+    def get_promedio(self) -> str:
+        total_notas: float = 0
+        cant_materias: float = 0
+
+        if(len(self.materias_aprobadas) < 1):
+            return "N/A"
+
+        for materia in self.materias_aprobadas:
+            total_notas += materia[1]
+            cant_materias += 1
+        
+        return str(total_notas / cant_materias)
+    
+    def get_materias_aprobadas(self) -> Materia:
+        materias_aprobadas = ""
+        for materia in self.materias:
+            for aprobada in self.materias_aprobadas:
+                if(aprobada[0] == materia.codigo):
+                    materias_aprobadas += f" {materia}"
+        
+        return materias_aprobadas
+    
+    def materia_existe(self, codigo: str) -> bool:
+        for materia in self.materias:
+            if(codigo == materia.codigo ):
+                return True
+        return False
+    
+    def aprobar(self, codigo: str, nota: float) -> None:
+        existe: bool = self.materia_existe(codigo)
+        if(not existe):
+            print(Exception("Error: La materia 75.14 no es parte del plan de estudios"))
+            return
+        self.materias_aprobadas.append((codigo, nota))
+
+    
+    def __str__(self) -> str:
+        return f"Créditos: {self.get_creditos()} -- Promedio: {self.get_promedio()} -- Materias Aprobadas: {self.get_materias_aprobadas()}"
+
+
+analisis2 = Materia("61.03", "Análisis 2", 8)
+fisica2 = Materia("62.01", "Física 2", 8)
+algo1 = Materia("75.40", "Algoritmos 1", 6)
+
+c = Carrera([analisis2, fisica2, algo1])
+
+print(c)
+# >>> Créditos: 0 -- Promedio: N/A -- Materias aprobadas:
+
+c.aprobar("95.14", 7)
+# >>> Error: La materia 75.14 no es parte del plan de estudios
+c.aprobar("75.40", 10)
+c.aprobar("62.01", 7)
+print(c)
+# >>> Créditos: 14 -- Promedio: 8.5 -- Materias aprobadas: 75.40 Algoritmos 1 (10) 62.01 Física 2 (7)
