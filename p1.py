@@ -323,7 +323,7 @@ class Carrera():
         return f"Créditos: {self.get_creditos()} -- Promedio: {self.get_promedio()} -- Materias Aprobadas: {self.get_materias_aprobadas()}"
 
 
-analisis2 = Materia("61.03", "Análisis 2", 8)
+""" analisis2 = Materia("61.03", "Análisis 2", 8)
 fisica2 = Materia("62.01", "Física 2", 8)
 algo1 = Materia("75.40", "Algoritmos 1", 6)
 
@@ -337,4 +337,50 @@ c.aprobar("95.14", 7)
 c.aprobar("75.40", 10)
 c.aprobar("62.01", 7)
 print(c)
-# >>> Créditos: 14 -- Promedio: 8.5 -- Materias aprobadas: 75.40 Algoritmos 1 (10) 62.01 Física 2 (7)
+# >>> Créditos: 14 -- Promedio: 8.5 -- Materias aprobadas: 75.40 Algoritmos 1 (10) 62.01 Física 2 (7) """
+
+
+# Ejercicio 7
+
+# Encontrar los errores en el siguiente código y proponer soluciones:
+""" 
+class Cosa:
+    def __init__(self, valor):
+        self.valor = valor
+
+class Coleccion:
+    def __init__(self):
+        self.coleccion = []
+
+    def agregar_cosa(cosa: Cosa):
+        coleccion.append(cosa) # (2) Se quiere acceder a coleccion pero no se paso self como parametro y no se esta haciendo referencia al mismo.
+
+cosa = Cosa() # (1) Cosa se esta instanciando sin un valor y este es necesario
+coleccion = Coleccion()
+coleccion.agregar_cosa(cosa) 
+"""
+
+
+class Cosa:
+    def __init__(self, valor = 0): # (1) Una posible solucion es colocar un valor por defecto
+        self.valor = valor
+    
+    def __str__(self) -> str:
+        return str(self.valor)
+
+class Coleccion:
+    def __init__(self):
+        self.coleccion = []
+
+    def agregar_cosa(self, cosa: Cosa):
+        self.coleccion.append(cosa) # (2) La solucion es colocar self como parametro para asi poder acceder a los atributos de la clase
+
+    def __str__(self) -> str:
+        return ", ".join(str(cosa) for cosa in self.coleccion)
+
+cosa = Cosa() # (1) Cosa se esta instanciando sin un valor y este es necesario
+coleccion = Coleccion()
+coleccion.agregar_cosa(cosa)
+print(coleccion)
+
+
