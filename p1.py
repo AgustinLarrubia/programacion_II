@@ -378,9 +378,214 @@ class Coleccion:
     def __str__(self) -> str:
         return ", ".join(str(cosa) for cosa in self.coleccion)
 
-cosa = Cosa() # (1) Cosa se esta instanciando sin un valor y este es necesario
+""" cosa = Cosa() # (1) Cosa se esta instanciando sin un valor y este es necesario
 coleccion = Coleccion()
 coleccion.agregar_cosa(cosa)
-print(coleccion)
+print(coleccion) """
+
+# Ejercicio 8
+
+""" 
+Considere la siguiente jerarquía de clases:
+
+                          |--- Felinos
+Animales --- Mamíferos ---|--- Cánidos
+                          |--- Primates --- Hacker
+
+  Programe un conjunto de seis clases que modele esta taxonomía utilizando clases. Luego, agregue un
+método speak a cada clase imprimiendo un mensaje apropiado a cada clase (por ejemplo, una instancia
+de animal podría imprimir "Soy un animal").
+
+  Luego, agregue un método talk a la clase Animal, que simplemente delegue el funcionamiento en
+speak. ¿Qué ocurre al llamar a talk en una subclase? ¿Qué ocurre si borramos el método speak de la
+clase Hacker? 
+
+"""
+
+class Animal():
+    def __init__(self) -> None:
+        pass
+
+    def speak(self) -> None:
+        print("Soy un animal.")
+    
+    def talk(self) -> None:
+        self.speak()
+
+class Mamifero(Animal):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def speak(self) -> None:
+        print("Soy un mamifero")
+
+class Felino(Mamifero):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def speak(self) -> None:
+        print("Soy un felino")
+
+class Canido(Mamifero):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def speak(self) -> None:
+        print("Soy un canido")
+
+class Primate(Mamifero):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def speak(self) -> None:
+        print("Soy un primate")
+
+class Hacker(Primate):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def speak(self) -> None:
+        print("Soy un kaker") # hacker T!
 
 
+""" animal = Animal()
+mamifero = Mamifero()
+felino = Felino()
+canido = Canido()
+primate = Primate()
+hacker = Hacker()
+
+animal.speak()
+mamifero.speak()
+felino.speak()
+canido.speak()
+primate.speak()
+hacker.speak() """
+
+# ¿Qué ocurre al llamar a talk en una subclase? 
+
+""" primate.talk() """
+
+"""
+  Al invocar talk en una subclase esta llama a el metodo speak correspondiente a 
+la subclase que lo invoco.
+  En este caso se imprime en consola el mensaje que contiene el metodo speak en la clase primate.
+
+>>> Soy un primate
+"""
+
+# ¿Qué ocurre si borramos el método speak de la clase Hacker? 
+
+"""
+Si borramos el metodo speak de la clase hacker se llamara al metodo
+del mismo nombre definido en su clase padre (Si es que este esta definido) sino buscar siempre en la clase 
+superior la existencia de la misma.
+"""
+
+
+# Ejercicio 9
+
+""" 
+  Complete la funcionalidad de la clase Jugador, implementando los siguientes métodos:
+    • golpeado: quita vida al jugador.
+    • golpear: quita vida al enemigo y lo agrega a la lista de enemigos golpeados. 
+"""
+class Entidad:
+    def __init__(self, vida_inicial: int):
+
+        self.vida = vida_inicial
+
+class Enemigo(Entidad):
+    
+    def __str__(self) -> str:
+        return f"Enemigo: Vida: {self.vida}"
+
+class Jugador(Entidad):
+    def __init__(self, vida_inicial: int):
+        super().__init__(vida_inicial)
+        self.enemigos_golpeados = []
+
+    def golpeado(self, cuanto: int):
+        if(cuanto > self.vida):
+            self.vida = 0
+        else:
+            self.vida -= cuanto
+
+    def golpear(self, enemigo: Enemigo, cuanto: int):
+        self.enemigos_golpeados.append(enemigo)
+        if(cuanto > enemigo.vida):
+            enemigo.vida = 0
+        else:
+            enemigo.vida -= cuanto
+
+    def __str__(self) -> str:
+        return f"Estadisticas: Vida: {self.vida} Enemigos golpeados: {self.enemigos_golpeados}" # Direcion en memoria de los enemigos golepados
+
+
+""" player1 = Jugador(100)
+enemigo = Enemigo(100)
+player1.golpeado(20)
+print(player1)
+player1.golpear(enemigo, 50)
+print(enemigo)
+print(player1)
+player1.golpeado(50)
+print(player1)
+player1.golpear(enemigo, 60)
+print(enemigo) """
+
+# Ejercicio 10
+
+class Billetera:
+    """
+    Faltaria implementar una variable y metodo que maneje el 
+    reinicio del reintegro cada mes.
+    """
+    # Variables de clase.
+    PORCENTAJE_DE_REINTEGRO: float = 30
+    MONTO_MAXIMO_DE_REINTEGRO: float = 5000
+
+    def __init__(self, nro_cuenta: str) -> None:
+        self.nro_cuenta = nro_cuenta
+        self.saldo = 0
+        self.reintegro_restante = self.MONTO_MAXIMO_DE_REINTEGRO
+
+    def cargar(self, monto: float) -> None:
+        self.saldo += monto
+
+    def calcular_descuento(self, monto: float) -> float:
+        return (monto * self.PORCENTAJE_DE_REINTEGRO) / 100
+    
+    def pagar(self, monto: float) -> None:
+
+        if(monto > self.saldo):
+            print("Fondos insuficientes")
+            return
+        
+        descuento: float = self.calcular_descuento(monto)
+
+        if(descuento > self.reintegro_restante): # Importante validar antes de descontar
+            descuento = self.reintegro_restante
+
+        self.reintegro_restante -= descuento
+
+        total: float = monto - descuento
+        print(f"Total a pagar: {total}")
+        self.saldo -= total
+    
+    def monto_descuento_pendiente(self) -> float:
+        return self.reintegro_restante
+
+billetera1 = Billetera("123")
+billetera1.cargar(100000)
+billetera1.pagar(10000)
+print(billetera1.monto_descuento_pendiente())
+billetera1.pagar(10000)
+print(billetera1.monto_descuento_pendiente())
+
+# Ejemplo practica
+cuenta = Billetera("1202")
+cuenta.cargar(15000)
+cuenta.pagar(15000)
+print(cuenta.monto_descuento_pendiente())
+# >>> 500
