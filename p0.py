@@ -252,7 +252,7 @@ def posicion(a: str, b: str) -> int:
     
     return posicion(a[1:], b)
     
-print(posicion("posicion", "si"))
+#print(posicion("posicion", "si"))
 
 # Ejercicio 15
 
@@ -290,14 +290,14 @@ def fibonacci_memo(n: int) -> int:
     
 
 
-import time
+""" import time
 
 
 start_time = time.time()
 print(fibonacci(50)) 
 end_time = time.time()
 total = end_time - start_time
-print(f"{total:.5f}")
+print(f"{total:.5f}") """
 
 #print(fibonacci(80))
 #print(fibonacci_memo_global(100))
