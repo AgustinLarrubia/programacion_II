@@ -26,6 +26,20 @@ class LinkedList:
         self.first: _Node | None = None
         self.len: int = 0
 
+    def __str__(self) -> str:
+        
+        n_act = self.first
+        linkedList = ""
+        if(n_act == None):
+            return str(None)
+
+        while n_act != None:
+            linkedList += (str(n_act.data) + ", ") if n_act.next is not None else (str(n_act.data) + ".")
+            n_act = n_act.next
+
+        return linkedList
+
+
     def insert(self,  i: int, x: Any) -> None:
         """
         Inserta el elemento x en la posición i.
@@ -64,7 +78,7 @@ class LinkedList:
         if(i is None):
             i = self.len - 1
 
-        if(i < self.len or i > self.len):
+        if(i < 0 or i >= self.len):
             print("Posicion invalida.")
             return
         
@@ -97,25 +111,26 @@ class LinkedList:
             return
         
         if(self.first.data == x):
-            print(self.first.data)
+
             self.first = self.first.next
-            self.len -= 1
-            return
         else:
-            n_ant = self.first
+            n_prev = self.first
             n_act = self.first.next
 
-            for _ in range(1, self.len):
+            while n_act is not None and n_act.data != x:
 
-                if(n_act.data == x):
-                    print(n_act.data)
-                    n_ant.next = n_act.next
-                    self.len -= 1
-                    return
-                n_ant = n_act
+                n_prev = n_act
                 n_act = n_act.next
+            
+            if(n_act is None):
+                print("El valor no esta en la lista.")
+                return
+            
+            n_prev.next = n_act.next
+            
+        self.len -= 1
 
-        print(f"{x} no se encuentra en la lista")
+
 
 
 linkedList = LinkedList()
@@ -123,5 +138,6 @@ linkedList.insert(0, 3)
 linkedList.insert(0, 5)
 linkedList.insert(0, 8)
 
-linkedList.remove(83)
-# Esta no es la version final de LinkedList, falta refactorizar y testear
+print(linkedList)
+linkedList.remove(3)
+print(linkedList)
