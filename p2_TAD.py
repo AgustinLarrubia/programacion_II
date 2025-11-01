@@ -30,15 +30,42 @@ class LinkedList:
         
         n_act = self.first
         linkedList = ""
-        if(n_act == None):
+        if(n_act is None):
             return str(None)
 
-        while n_act != None:
+        while n_act is not None:
             linkedList += (str(n_act.data) + ", ") if n_act.next is not None else (str(n_act.data) + ".")
             n_act = n_act.next
 
         return linkedList
+    
+    def __len__(self) -> int:
+        return self.len
+    
 
+    def append(self, x: Any) -> None:
+        """ 
+        agrega un elemento al final de la lista. 
+        """
+
+        new_node = _Node(x)
+
+        if(self.first is None):
+
+            self.first = new_node
+        else:
+            
+            n_act = self.first
+
+            while n_act.next is not None:
+
+                n_act = n_act.next
+
+            
+            n_act.next = new_node
+        
+        self.len += 1
+        
 
     def insert(self,  i: int, x: Any) -> None:
         """
@@ -129,6 +156,27 @@ class LinkedList:
             n_prev.next = n_act.next
             
         self.len -= 1
+    
+    def index(self, x: Any) -> int | None:
+        """         
+        Devuelve la posición de la primera aparición de x en la lista 
+        (si x no se encuentra presente, imprimirá un error y detendrá la ejecución inmediatamente.) 
+        """
+        
+        pos = 0
+        n_act = self.first
+
+        while n_act is not None:
+
+            if(n_act.data == x):
+                return pos
+            pos += 1
+            n_act = n_act.next
+
+
+        print(f"Error: {x} no se encuentra en la lista.")
+        return
+
 
 
 
@@ -137,7 +185,9 @@ linkedList = LinkedList()
 linkedList.insert(0, 3)
 linkedList.insert(0, 5)
 linkedList.insert(0, 8)
+linkedList.append(89)
 
 print(linkedList)
+print(linkedList.index(3))
 linkedList.remove(3)
 print(linkedList)
