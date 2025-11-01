@@ -191,3 +191,5 @@ print(linkedList)
 print(linkedList.index(3))
 linkedList.remove(3)
 print(linkedList)
+
+# Implementar raise ValueError
