@@ -176,12 +176,100 @@ class LinkedList:
 
         print(f"Error: {x} no se encuentra en la lista.")
         return
+    
+    def extend(self, newList: 'LinkedList') -> None:
+        """
+        Ejercicio 2
+
+          Agregue a ListaEnlazada un método extend que reciba una ListaEnlazada y agregue a la lista actual
+        los elementos que se encuentran en la lista recibida. ¿Puede estimar la complejidad de este método?
+        """
+        n_act = newList.first
+
+        while n_act is not None:
+
+            data = n_act.data
+
+            self.append(data)
+
+            n_act = n_act.next
+    
+    def remove_all(self, element: Any) -> int:
+        """
+        Ejercicio 3
+
+        Implemente el método remover_todos(elemento) de ListaEnlazada, que recibe un elemento y remueve de la lista todas las apariciones del mismo, devolviendo la cantidad de elementos removidos. La
+        lista debe ser recorrida una sola vez.
+        """
+        itemRemoved: int = 0
+
+        while self.first is not None and self.first.data == element:
+
+            self.first = self.first.next
+            itemRemoved += 1
+
+        if(self.first is None):
+            return itemRemoved
+        
+        n_prev = self.first
+        n_act = self.first.next
+
+        while n_act is not None:
+
+            data = n_act.data
+
+            if(data == element):
+                n_prev.next = n_act.next
+                itemRemoved += 1
+            else:
+
+                n_prev = n_prev.next
+            n_act = n_prev.next
+
+        return itemRemoved
+        # Version profe:
+        """
+        Si bien en el caso anterior recorremos la lista una vez
+        tenemos que usar dos whiles.
+
+        El profe propuso inicializar n_prev = None para solo utilizar uno.
+        """
+
+    def duplicate(self, element: Any) -> None:
+        """       
+        Ejercicio 4
+
+        Implemente el método duplicar(elemento) de ListaEnlazada, que recibe un elemento y duplica
+        todas las apariciones del mismo.
+
+        En este caso no voy a usar el insert...
+        """
+        n_act = self.first
+
+        while n_act is not None:
+
+            if(n_act.data == element):
+
+                new_node = _Node(element)
+
+                n_next = n_act.next
+                n_act.next = new_node
+
+                new_node.next = n_next
+
+                n_act = n_act.next.next
+            else:
+                n_act = n_act.next 
 
 
 
 
 
-linkedList = LinkedList()
+
+
+# Ejercicio 1
+
+""" linkedList = LinkedList()
 linkedList.insert(0, 3)
 linkedList.insert(0, 5)
 linkedList.insert(0, 8)
@@ -190,6 +278,155 @@ linkedList.append(89)
 print(linkedList)
 print(linkedList.index(3))
 linkedList.remove(3)
-print(linkedList)
+print(linkedList) """
+
+# Ejercicio 2
+
+""" linkedList1 = LinkedList()
+linkedList1.insert(0, 3)
+linkedList1.insert(0, 2)
+linkedList1.insert(0, 1)
+linkedList2 = LinkedList()
+linkedList2.insert(0, 6)
+linkedList2.insert(0, 5)
+linkedList2.insert(0, 4)
+print(f'linkedList1: {linkedList1}')
+print(f'linkedList2: {linkedList2}')
+
+linkedList1.extend(linkedList2) #Importante en el motodo extend crear un nuevo nodo para no vincular las dos listas
+
+
+
+# Ejemplo:
+
+#  Eliminar el ultimo nodo de linkedList2 no afecta
+# a linkedList1 extends linkedList2 porque
+# se crearon nuevos nodos al hacerse append.
+
+linkedList2.pop() 
+print(f'linkedList1 extends linkedList2: {linkedList1}')
+print(f'linkedList2: {linkedList2}') """
+
+# Ejercicio 3
+""" linkedList1 = LinkedList()
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 3)
+linkedList1.insert(0, 2)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 6)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 4)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 1)
+
+print(linkedList1)
+print(linkedList1.remove_all(1))
+print(linkedList1) """
+
+# Ejercicio 4
+""" linkedList1 = LinkedList()
+linkedList1.insert(0, 8)
+linkedList1.insert(0, 2)
+linkedList1.insert(0, 8)
+linkedList1.insert(0, 8)
+linkedList1.insert(0, 5)
+linkedList1.insert(0, 1)
+
+
+print(linkedList1)
+linkedList1.duplicate(8)
+print(linkedList1) """
+
+
 
 # Implementar raise ValueError
+
+
+class Stack:
+    """ 
+    Representa una pila con operaciones de apilar , desapilar y
+    verificar si est á vacía. 
+    """
+
+    def __init__(self) -> None:
+        """ Crea una pila vacia """
+        self.items: list[Any] = []
+
+    def push(self, item: Any) -> None:
+        """ Apila un elemento a la pila """
+        self.items.append(item)
+
+    def pop(self) -> Any:
+        """ 
+          Des - apila un elemento y lo devuelve .
+        Si la pila esta vac ía, imprime un mensaje de error y retorna
+        inmediatamente 
+        """
+        if self.isEmpty():
+            print("La pila esta vacia.")
+            return 
+        
+        return self.items.pop()
+
+    def isEmpty(self) -> bool:
+
+        return (self.items == [])
+    
+
+""" p = Stack()
+print(p.isEmpty())
+#True
+p.push(1)
+print(p.isEmpty())
+#False
+p.push(5)
+p.push("+")
+p.push(22)
+print(p.pop())
+#22
+q = Stack()
+q.pop()
+#La pila esta vacía """
+
+class Queue:
+
+    def __init__(self) -> None:
+
+        self.items = []
+
+    def insert(self, item: Any) -> None:
+
+        self.items.append(item)
+
+    def remove(self) -> Any:
+        
+        if self.isEmpty():
+
+            print("La cola esta vacia.")
+            return
+        
+        return self.items.pop(0)
+
+    def isEmpty(self) -> bool:
+        
+        return self.items == []
+    
+""" q = Queue()
+print(q.isEmpty())
+#True
+q.insert(1)
+q.insert(2)
+q.insert(5)
+print(q.isEmpty())
+#False
+print(q.remove())
+#1
+print(q.remove())
+#2
+q.insert(8)
+print(q.remove())
+#5 """
