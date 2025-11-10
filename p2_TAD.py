@@ -45,7 +45,7 @@ class LinkedList:
 
     def append(self, x: Any) -> None:
         """ 
-        agrega un elemento al final de la lista. 
+          Agrega un elemento al final de la lista. 
         """
 
         new_node = _Node(x)
@@ -69,7 +69,7 @@ class LinkedList:
 
     def insert(self,  i: int, x: Any) -> None:
         """
-        Inserta el elemento x en la posición i.
+          Inserta el elemento x en la posición i.
         Si la posición es inválida, imprime un error y retorna inmediatamente.
         """
 
@@ -96,7 +96,7 @@ class LinkedList:
     
     def pop(self, i: int | None = None) -> Any:
         """
-        Elimina el nodo de la posición i, y devuelve el dato contenido.
+          Elimina el nodo de la posición i, y devuelve el dato contenido.
         Si i está fuera de rango, se muestra un mensaje de error y se
         retorna inmediatamente. Si no se recibe la posición, devuelve el
         último elemento.
@@ -129,7 +129,8 @@ class LinkedList:
         return data
     
     def remove(self, x: Any) -> None:
-        """Borra la primera aparición del valor x en la lista.
+        """
+          Borra la primera aparición del valor x en la lista.
         Si x no está en la lista, imprime un mensaje de error y retorna
         inmediatamente.
         """
@@ -159,7 +160,7 @@ class LinkedList:
     
     def index(self, x: Any) -> int | None:
         """         
-        Devuelve la posición de la primera aparición de x en la lista 
+          Devuelve la posición de la primera aparición de x en la lista 
         (si x no se encuentra presente, imprimirá un error y detendrá la ejecución inmediatamente.) 
         """
         
@@ -198,7 +199,7 @@ class LinkedList:
         """
         Ejercicio 3
 
-        Implemente el método remover_todos(elemento) de ListaEnlazada, que recibe un elemento y remueve de la lista todas las apariciones del mismo, devolviendo la cantidad de elementos removidos. La
+          Implemente el método remover_todos(elemento) de ListaEnlazada, que recibe un elemento y remueve de la lista todas las apariciones del mismo, devolviendo la cantidad de elementos removidos. La
         lista debe ser recorrida una sola vez.
         """
         itemRemoved: int = 0
@@ -239,10 +240,10 @@ class LinkedList:
         """       
         Ejercicio 4
 
-        Implemente el método duplicar(elemento) de ListaEnlazada, que recibe un elemento y duplica
+          Implemente el método duplicar(elemento) de ListaEnlazada, que recibe un elemento y duplica
         todas las apariciones del mismo.
 
-        En este caso no voy a usar el insert...
+          En este caso no voy a usar el insert...
         """
         n_act = self.first
 
@@ -260,6 +261,28 @@ class LinkedList:
                 n_act = n_act.next.next
             else:
                 n_act = n_act.next 
+
+    def invert(self) -> None:
+        """
+        Ejercicio 5
+        
+          Escriba un método de la clase ListaEnlazada que invierta el orden de la lista (es decir, el primer
+        elemento queda como último y viceversa).
+        """
+        n_prev = None
+        n_act = self.first
+        
+        while n_act is not None:
+
+            next_node = n_act.next
+
+            n_act.next = n_prev
+
+            n_prev = n_act
+
+            n_act = next_node
+        
+        self.first = n_prev
 
 
 
@@ -341,6 +364,25 @@ print(linkedList1)
 linkedList1.duplicate(8)
 print(linkedList1) """
 
+# Ejercicio 5
+
+linkedList1 = LinkedList()
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 3)
+linkedList1.insert(0, 2)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 6)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 4)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 1)
+linkedList1.insert(0, 1)
+
+print(linkedList1)
+linkedList1.invert()
+print(linkedList1)
 
 
 # Implementar raise ValueError
