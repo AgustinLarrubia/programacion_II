@@ -1,5 +1,5 @@
-from hmac import new
 from typing import Any
+import math
 
 class _Node:
     
@@ -285,6 +285,36 @@ class LinkedList:
         
         self.first = n_prev
 
+    def filtar_primos(self) -> 'LinkedList | None':
+
+        if(self.first is None):
+            return None
+        
+        new_list: 'LinkedList' = LinkedList()
+        n_act = self.first
+
+        while n_act is not None:
+
+            data = n_act.data
+            if isinstance(data, int) and es_primo(data):
+
+                new_node = _Node(data)
+
+                if(len(new_list) == 0):
+
+                    new_list.first = new_node
+                    last_node = new_list.first
+                else:
+
+                    last_node.next = new_node
+                    last_node = last_node.next 
+
+                new_list.len += 1   
+
+            n_act = n_act.next
+
+        return new_list
+            
 
 
 
@@ -452,15 +482,20 @@ class DoublyLinkedList:
 
         if(i < 0 or i > self.len):
             print("Posicion Invalida.")
-            return
+            return None
         
         new_node = _DoubleNode(x)
 
         if(i == 0):
 
-            new_node.next = self.first
-            self.first.prev = new_node
-            self.first = new_node
+            if(self.first is None):
+
+                self.first = new_node
+                self.last = new_node
+            else:
+                new_node.next = self.first
+                self.first.prev = new_node
+                self.first = new_node
 
         elif(i == self.len):
 
@@ -484,23 +519,116 @@ class DoublyLinkedList:
         self.len += 1
 
 
+    def pop(self, i: int | None = None) -> Any:
+
+        if(i is None):
+            i = self.len - 1
+
+        if(i < 0 or i >= self.len):
+            print("Posicion invalida")
+            return
+        
+        if(self.len == 1):
+
+            data: Any = self.first.data
+            self.first = None
+            self.last = None
+
+            self.len -= 1
+            return data
+        
+        if(i == 0):
+
+            data: Any = self.first.data
+            self.first = self.first.next
+        elif(i == self.len - 1):
+
+            data: Any = self.last.data
+            self.last.prev.next = None
+            self.last = self.last.prev
+        else:
+
+            n_act = self.first.next
             
-            
+            for _ in range(1, i):
+                n_act = n_act.next
+
+            data: Any = n_act.data
+            n_act.prev.next = n_act.next
+            n_act.next.prev = n_act.prev
+
+        
+        self.len -= 1
+        return data
             
 
+    def remove(self, x: Any) -> None:
+        
+        if(self.first is None):
+
+            return None
+        
+        n_act = self.first
+    
+        while n_act is not None and n_act.data != x:
+
+            n_act = n_act.next
+
+        if(n_act is None):
+            print("El valor no esta en la lista.")
+            return
+        
+        hasNext: bool = n_act.next is not None
+        hasPrev: bool = n_act.prev is not None
+
+        if(not hasNext and not hasPrev):
+            self.first = None
+            self.last = None
+            self.len -= 1
+            return
+
+        if(hasNext and not hasPrev):
+            self.first = self.first.next
+            self.first.prev = None
+            self.len -= 1
+            return
+
+        if(not hasNext and hasPrev):
+            self.last = self.last.prev
+            self.last.next = None
+            self.len -= 1
+            return
+
+        n_act.prev.next = n_act.next
+        n_act.next.prev = n_act.prev
+
+        self.len -= 1
 
 
+    def index(self, x: Any) -> int | None:
 
+        if(self.first is None):
+            print(f"Error: {x} no se encuentra en la lista.")
+            return None
+        
+        pos: int = 0
+        n_act = self.first
+    
+        while n_act is not None:
+
+            if(n_act.data == x):
+                return pos
+            pos += 1
+            n_act = n_act.next
+
+        print("El valor no esta en la lista.")
+        return
             
-            
-
-    def pop(self, x) -> Any:
-        pass
 
 # Implementar raise ValueError
 
 
-doubleLinkedList = DoublyLinkedList()
+""" doubleLinkedList = DoublyLinkedList()
 
 
 doubleLinkedList.append(1)
@@ -509,11 +637,46 @@ doubleLinkedList.append(5)
 doubleLinkedList.append(79)
 
 
-#print(doubleLinkedList)
-
-doubleLinkedList.insert(3, 7)
-
 print(doubleLinkedList)
+
+doubleLinkedList.insert(0, 7)
+popped = doubleLinkedList.pop(3)
+print(popped)
+print(doubleLinkedList) """
+
+
+# Ejercicio 7
+def es_primo(n: int) -> bool:
+
+    if n <= 1:
+        return False
+    
+    if n == 2:
+        return True
+    
+    if n % 2 == 0:
+        return False
+    
+    limite = int(math.sqrt(n)) + 1
+    
+    for i in range(3, limite, 2):
+        if n % i == 0:
+            return False 
+            
+    return True
+
+linkedList1 = LinkedList()
+linkedList1.append(1)
+linkedList1.append(5)
+linkedList1.append(8)
+linkedList1.append(8)
+linkedList1.append(2)
+linkedList1.append(8)
+linkedList1.append(7)
+
+print(linkedList1)
+primos = linkedList1.filtar_primos()
+print(primos)
 
 class Stack:
     """ 
