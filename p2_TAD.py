@@ -286,6 +286,15 @@ class LinkedList:
         self.first = n_prev
 
     def filtar_primos(self) -> 'LinkedList | None':
+        """
+        Ejercicio 7
+
+          Implemente el método filtrar_primos() en la clase ListaEnlazada, que devuelve una nueva lista
+        enlazada con los elementos que sean números primos. La nueva lista debe ser construida recorriendo
+        los nodos una sola vez (es decir, no se puede llamar a append!). Ejemplo:
+          L = 1 -> 5 -> 8 -> 8 -> 2 -> 8
+          L.filtrar_primos() -> L2 = 5 -> 2
+        """
 
         if(self.first is None):
             return None
@@ -665,7 +674,7 @@ def es_primo(n: int) -> bool:
             
     return True
 
-linkedList1 = LinkedList()
+""" linkedList1 = LinkedList()
 linkedList1.append(1)
 linkedList1.append(5)
 linkedList1.append(8)
@@ -676,7 +685,122 @@ linkedList1.append(7)
 
 print(linkedList1)
 primos = linkedList1.filtar_primos()
-print(primos)
+print(primos) """
+
+# Ejercicio 8
+def  insertar_palabra_despues(lista: LinkedList,palabra_objetivo: str, palabra_insertar: str) -> 'LinkedList | None':
+    """
+    Ejercicio 8
+
+      Se tiene una lista enlazada L de palabras, y se quiere insertar la palabra “mundo” despues de
+    todas las apariciones de la palabra “hola”. Defina una función insertar_palabra_despues(lista,
+    palabra_objetivo, palabra_insertar) que dada una lista, una palabra objetivo (hola) y una palabra
+    a insertar (mundo) devuelva una nueva lista enlazada donde se agrega la nueva palabra cada vez que se
+    encuentra la palabra objetivo.
+    Por ejemplo:
+    L = “Planificacion” -> “Hola” -> “de” -> “Trece”
+    insertar_palabra_despues(L, “Hola”, “Mundo”) -> L2 = “Planificacion” -> “Hola” -> “Mundo” ->
+    “de” -> “Trece”
+    """
+    if(lista.first is None):
+        print("Lista vacia.")
+        return None
+    
+    new_list: 'LinkedList' = LinkedList()
+    n_act = lista.first
+
+    while n_act is not None:
+
+        data = n_act.data
+
+        if data == palabra_objetivo:
+            old_node = _Node(palabra_objetivo)
+            new_node = _Node(palabra_insertar)
+            if len(new_list) == 0:
+                new_list.first = old_node
+                new_list.first.next = new_node
+                last_node = new_list.first.next
+            else:
+                last_node.next = old_node
+                last_node.next.next = new_node
+                last_node = last_node.next.next
+            
+            new_list.len += 2
+        else:
+            new_node = _Node(data)
+            if len(new_list) == 0:
+                new_list.first = new_node
+                last_node = new_list.first   
+            else:
+                last_node.next = new_node
+                last_node = last_node.next
+            new_list.len += 1
+
+        n_act = n_act.next
+
+    return new_list
+
+""" linkedList1 = LinkedList()
+
+linkedList1.append("Primero")
+linkedList1.append("Hola")
+linkedList1.append("Segundo")
+linkedList1.append("Francia")
+
+print(linkedList1)
+listaModificada = insertar_palabra_despues(linkedList1, "Hola", "Mundo")
+print(listaModificada) """
+
+# Ejercicio 9
+
+def eliminar_palabras_con(lista: LinkedList, char: str) -> 'LinkedList | None':
+    """
+    Ejercicio 9
+
+      Se tiene una lista enlazada L de palabras, y se desea eliminar todas las palabras que contengan una
+    ñ. Defina una función eliminar_palabras_con(lista, carácter) que dada una lista y un carácter,
+    devuelva una nueva lista enlazada donde se eliminaron las apariciones de palabras conteniendo dicho
+    carácter.
+    Por ejemplo:
+    L = “Ocho” -> “Veinte” -> “Veinticuatro” -> “Hoy”
+    eliminar_palabras_con(L, “V”) -> L2 = “Ocho” -> “Hoy”
+    """
+    if(lista.first is None):
+        print("Lista Vacia.")
+        return None
+    
+    new_list = LinkedList()
+    n_act = lista.first
+
+    while n_act is not None:
+        dato = n_act.data
+        if isinstance(dato, str) and char not in dato:
+            new_node = _Node(dato)
+            if new_list.len == 0:
+
+                new_list.first = new_node
+                last_node = new_list.first
+            else:
+
+                last_node.next = new_node
+                last_node = last_node.next
+        
+            new_list.len += 1
+        n_act = n_act.next
+    
+    return new_list
+            
+
+linkedList1 = LinkedList()
+
+linkedList1.append("Primero")
+linkedList1.append("Hola")
+linkedList1.append("Segundo")
+linkedList1.append("Francia")
+
+print(linkedList1)
+listaModificada = eliminar_palabras_con(linkedList1, "a")
+print(listaModificada)
 
 class Stack:
     """ 
