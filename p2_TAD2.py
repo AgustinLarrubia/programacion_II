@@ -1,9 +1,13 @@
 from typing import Any
 
+
 class Stack:
     """ 
+    Ejercicio 1
+      Defina una clase Pila que implemente el TAD Pila utilizando listas de Python
+      
     Representa una pila con operaciones de apilar , desapilar y
-    verificar si est á vacía. 
+    verificar si está vacía. 
     """
 
     def __init__(self) -> None:
@@ -94,6 +98,11 @@ class _Node:
         self.next = next
 
 class LinkedStack:
+    """
+    Ejercicio 2
+    
+      Defina una clase PilaEnlazada que implemente el TAD Pila utilizando una estructura enlazada.
+    """
 
     def __init__(self) -> None:
 
@@ -132,7 +141,7 @@ class LinkedStack:
         
         
 
-s = LinkedStack()
+""" s = LinkedStack()
 print(s.isEmpty())
 #True
 s.push(1)
@@ -145,7 +154,92 @@ print(s.pop())
 #22
 q = LinkedStack()
 q.pop()
-#La pila esta vacía
+#La pila esta vacía """
+
+class LinkedStackWithMax():
+    """
+    Ejercicio 3
+
+      Defina una clase PilaConMaximo que implemente las operaciones de Pila (push(item) y pop()) y el
+    método obtener_maximo() que devuelva el elemento máximo de la Pila, sin sacarlo de la misma y que
+    funcione en tiempo constante.
+
+      Ayuda: usar dos pilas, una para guardar los elementos y otra para guardar los máximos.
+    """
+
+    def __init__(self) -> None:
+
+        self.stack: LinkedStack = LinkedStack()
+        self.max_stack: LinkedStack = LinkedStack()
+    
+    def get_max(self) -> Any | None:
+
+        if(self.max_stack.isEmpty()):
+            return None
+        
+        return self.max_stack.first.data
+    
+    def set_max(self, x: Any) -> None:
+
+        self.max_stack.push(x)
+    
+    def push(self, x: Any) -> None:
+
+        if isinstance(x, int) and (self.get_max() is None or x >= self.get_max()):
+            self.set_max(x)
+
+        self.stack.push(x)
+    
+    def pop(self) -> Any:
+
+        if(self.stack.isEmpty()):
+            print("La pila esta vacia")
+            return
+        
+        data = self.stack.pop()     
+
+        if(self.get_max() == data):
+            self.max_stack.pop()
+        
+        return data
+
+
+""" s = LinkedStackWithMax()
+print(s.stack.isEmpty())
+#True
+print(s.max_stack.isEmpty())
+#True
+print(s.get_max())
+#None
+s.pop()
+#La pila esta vacia
+s.push(1)
+print(s.stack.isEmpty())
+#False
+print(s.max_stack.isEmpty())
+#False
+s.push(5)
+s.push("+")
+s.push(22)
+print(s.pop())
+#22
+q = LinkedStackWithMax()
+q.push(20)
+q.push(5)
+q.push(53)
+q.push(522)
+q.push(52)
+q.push(2)
+print(q.get_max())
+print(q.pop())
+#La pila esta vacía """
+
+
+
+
+
+
+        
 
         
 
