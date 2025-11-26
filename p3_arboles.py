@@ -347,5 +347,53 @@ def sumatoria(tree: Tree) -> float:
     
     return tree.cargo + sumatoria(tree.left) + sumatoria(tree.right)
 
-sumatoria_t = sumatoria(t)
+""" sumatoria_t = sumatoria(t)
 print(sumatoria_t)
+ """
+
+def sumatoria_rango(tree_A: Tree, M: int, inicio: int, final: int) -> float:
+    """
+    Ejercicio 7
+
+        Escriba una función sumatoria_rango que reciba un árbol binario A cuyos nodos contienen números y
+    que dado un entero M, una clave inicial inicio y una clave final final, calcula la suma de todos los
+    números del árbol que se encuentren entre inicio y final, a lo sumo hasta el nivel M.
+    """
+
+    if tree_A is None or M == -1:
+        return 0
+    
+    cargo = 0
+    
+    if tree_A.cargo >= inicio and tree_A.cargo <= final:
+        cargo = tree_A.cargo 
+
+    return cargo + sumatoria_rango(tree_A.left,M - 1, inicio, final) + sumatoria_rango(tree_A.right, M - 1, inicio, final)
+
+
+""" sumatoria_rango = sumatoria_rango(t, 3, 2, 20)
+print(sumatoria_rango) """
+
+# Arboles Binarios de Busqueda (BST)
+
+r"""
+Ejercicio 8
+    Dibuje un árbol binario de búsqueda de palabras, con al menos 5 palabras, utilizando orden de
+diccionario (lexicográfico). Acomódelo como más le guste, mientras sea correcto. Luego indique en qué
+lugar del árbol se insertaría la palabra python.
+
+ 
+        "No tengo muchas ganas de programar hoy en"
+        
+
+              No                      No
+           /      \                /      \
+      muchas      tengo         muchas      tengo
+      /           /              /           /
+    ganas    programar         ganas    programar
+    /   \                      /   \         \
+   de   hoy                  de   hoy       Python
+    \                         \
+    en                        en
+    
+"""
