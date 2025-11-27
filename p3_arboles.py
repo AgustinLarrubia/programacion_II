@@ -1,3 +1,4 @@
+from operator import le
 from typing import Any
 
 """ class Tree:
@@ -397,3 +398,86 @@ lugar del árbol se insertaría la palabra python.
     en                        en
     
 """
+
+class BSTree(Tree):
+    """
+    Ejercicio 9
+
+        Utilizando la misma clase Tree de la sección anterior, implemente otra clase llamada BSTree que herede
+    de esta, reimplemente los métodos menor_mayor, buscar e implemente un nuevo método llamado
+    insertar que inserte un elemento.
+
+    Ayuda: puede optar por definir métodos menor y mayor internamente por separado para hacer la
+    implementación más sencilla, pero no es estrictamente necesario.
+    """
+
+    def __init__(self, cargo: Any, left: "BSTree" = None, right: "BSTree" = None) -> None:
+
+        super().__init__(cargo)
+        self.left = left
+        self.right = right
+
+    
+    def menor(self) -> Any:
+        
+        if self.left is not None:
+            return self.left.menor()
+        
+        return self.cargo
+        
+    def mayor(self) -> Any:
+
+        if self.right is not None:
+            return self.right.mayor()
+        
+        return self.cargo
+
+    def menor_mayor(self) -> tuple[Any, Any]:            
+        
+        return (self.menor(),self.mayor())
+
+    def buscar(self, x: Any) -> bool:
+        
+        if self.cargo == x:
+            return True
+        
+        if x < self.cargo:
+
+            if self.left is not None and self.left.buscar(x):
+                return True
+        
+        elif x > self.cargo:
+            
+            if self.right is not None and self.right.buscar(x):
+                return True
+        
+        return False
+
+    def insert(self, x: Any) -> None:
+
+        if self.cargo < x:
+            if self.right is None:
+                self.right = BSTree(x)
+            else:
+                self.right.insert(x)
+        elif self.cargo > x :
+            if self.left is None:
+            
+                self.left = BSTree(x)
+            else:
+                self.left.insert(x)
+        else:
+            print(f"{x} ya se encuentra en el arbol.")
+            return None
+        
+bstree = BSTree(4)
+
+bstree.insert(5)
+bstree.insert(2)
+bstree.insert(7)
+bstree.insert(9)
+bstree.insert(12)
+bstree.insert(4)
+bstree.insert(1)
+bstree.insert(3)
+print(bstree.menor_mayor())
